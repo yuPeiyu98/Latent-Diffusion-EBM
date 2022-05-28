@@ -43,7 +43,7 @@ python <TASK_SCRIPT>.py --gpu <GPU_ID> --forward_only True
 
 ```
 @inproceedings{yu2022latent,
-  author = {Yu, Peiyu and Xie, Sirui and Ma, Xiaojian and Jia, Baoxiong and Pang, Bo and Gao, Ruiqi and Zhu, Yixin and Wu, Ying Nian and Zhu, Song-Chun},
+  author = {Yu, Peiyu and Xie, Sirui and Ma, Xiaojian and Jia, Baoxiong and Pang, Bo and Gao, Ruiqi and Zhu, Yixin and Zhu, Song-Chun and Wu, Ying Nian},
   title = {Latent Diffusion Energy-Based Model for Interpretable Text Modeling},
   booktitle = {Proceedings of International Conference on Machine Learning (ICML)},
   month = {July},
