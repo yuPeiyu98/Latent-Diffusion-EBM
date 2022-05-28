@@ -7,13 +7,17 @@ The official code repository for ICML 2022 paper "Latent Diffusion Energy-Based 
 
 ## Installation
 
-The implementation depends on the following commonly used packages, all of which can be installed via conda (TO ADD).
+The implementation is based on python 3.6.13 and depends on the following commonly used packages, most of which can be directly installed via conda.
 
 | Package       | Version                          |
 | ------------- | -------------------------------- |
-| PyTorch       | ≥ 1.8.1                          |
-| numpy         | *not specified* (we used 1.20.0) |
+| PyTorch       | 1.11.0                           |
+| faiss         | 1.7.0                            |
+| numpy         | 1.19.5                           |
+| nltk          | 3.6.5                            |
+| sklearn       | 0.24.2                           |
 
+Please refer to this [repo](https://github.com/facebookresearch/faiss) if you're having trouble installing faiss.
 
 ## Datasets and Pretrained Models
 
