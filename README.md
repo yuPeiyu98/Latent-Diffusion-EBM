@@ -1,5 +1,5 @@
 # Latent Diffusion Energy-Based Model for Interpretable Text Modeling
-<img src="teaser.PNG" alt="teaser" width="80%" />
+<img src="teaser.PNG" alt="teaser" width="50%" />
 
 [[Paper]()] [[Code](https://github.com/yuPeiyu98/LDEBM)]
 
