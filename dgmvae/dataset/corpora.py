@@ -214,6 +214,84 @@ class PTBCorpus(object):
         id_test = self._to_id_corpus(self.test_corpus)
         return Pack(train=id_train, valid=id_valid, test=id_test)
 
+class Text8Corpus(object):
+    logger = logging.getLogger()
+
+    def __init__(self, config):
+        self.config = config
+        self._path = config.zip_path
+        self.seq_len = config.max_utt_len
+        self.char2idx = {}
+        self.idx2char = []
+
+        self.rawdata = self._read_file()
+        self.train_corpus = self._split('train')
+        self.valid_corpus = self._split('valid')
+        self.test_corpus = self._split('test')
+
+        self._build_vocab()
+        self.unk = "<unk>"
+        print("Done loading corpus")
+
+    def _read_file(self): 
+        import zipfile       
+        # Read raw data
+        rawdata = zipfile.ZipFile(self._path).read('text8').decode('utf-8')
+
+        # Extract vocab
+        vocab = sorted(list(set(rawdata)))
+        for i, char in enumerate(vocab):
+            self.char2idx[char] = i
+            self.idx2char.append(char)
+
+        return rawdata
+
+    def _split(self, split):
+        # Extract subset
+        if split == 'train':
+            rawdata = self.rawdata[:90000000]
+        elif split == 'valid':
+            rawdata = self.rawdata[90000000:95000000]
+        elif split == 'test':
+            rawdata = self.rawdata[95000000:]
+
+        # Encode characters
+        data = [self.char2idx[char] for char in rawdata]
+
+        # Split into chunks
+        data = np.array(data[:self.seq_len*(len(data)//self.seq_len)])
+
+        return data.reshape(-1, self.seq_len)
+
+    def _build_vocab(self):        
+        # create vocabulary list sorted by count
+        print("Load corpus with train size %d, valid size %d, "
+              "test size %d vocab size %d"
+              % (len(self.train_corpus), len(self.valid_corpus),
+                 len(self.test_corpus), len(self.idx2char)))
+
+        self.vocab = [PAD] + [t for t in self.idx2char]
+        if UNK not in self.vocab:
+            self.vocab = [PAD, UNK] + [t for t in self.idx2char]
+        self.rev_vocab = {t: idx for idx, t in enumerate(self.vocab)}
+        self.unk_id = self.rev_vocab[UNK]
+
+        # self.vocab = self.idx2char
+        # self.rev_vocab = self.char2idx
+        # self.unk_id = self.rev_vocab.get(UNK)
+
+    def _sent2id(self, sent):
+        return [self.rev_vocab.get(t, self.unk_id) for t in sent]
+
+    def _to_id_corpus(self, data):        
+        return list(data)
+
+    def get_corpus(self):
+        id_train = self._to_id_corpus(self.train_corpus)
+        id_valid = self._to_id_corpus(self.valid_corpus)
+        id_test = self._to_id_corpus(self.test_corpus)
+        return Pack(train=id_train, valid=id_valid, test=id_test)
+
 class DailyDialogCorpus(object):
     logger = logging.getLogger()
 

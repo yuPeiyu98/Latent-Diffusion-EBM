@@ -456,6 +456,32 @@ class PTBDataLoader(DataLoader):
 
         return Pack(outputs=inputs, output_lens=input_lens, metas=[data["meta"] for data in rows])
 
+# Text8
+class Text8DataLoader(DataLoader):
+
+    def __init__(self, name, data, config, max_utt_len=-1):
+        super(Text8DataLoader, self).__init__(name, fix_batch=config.fix_batch)
+        self.max_utt_size = config.max_utt_len if max_utt_len == -1 else max_utt_len
+        self.data = data
+        self.data_size = len(self.data)
+        all_lens = [len(line) for line in self.data]
+        print("Max len %d and min len %d and avg len %f" % (np.max(all_lens),
+                                                            np.min(all_lens),
+                                                            float(np.mean(all_lens))))
+        if config.fix_batch:
+            self.indexes = list(np.argsort(all_lens))
+        else:
+            self.indexes = list(range(len(self.data)))    
+
+    def _prepare_batch(self, selected_index):
+        rows = [self.data[idx] for idx in selected_index]
+        input_lens = np.array([len(row) for row in rows], dtype=np.int32)
+        max_len = np.max(input_lens)
+        inputs = np.zeros((self.batch_size, max_len), dtype=np.int32)
+        for idx, row in enumerate(rows):
+            inputs[idx, 0:input_lens[idx]] = row
+
+        return Pack(outputs=inputs, output_lens=input_lens)
 
 # PTB
 class NewsDataLoader(DataLoader):

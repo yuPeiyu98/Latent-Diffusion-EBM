@@ -35,7 +35,8 @@ def generate(model, data_feed, config, evaluator, num_batch=1, dest_f=None):
         if batch is None or (num_batch is not None
                              and data_feed.ptr > num_batch):
             break
-        outputs, labels = model((batch, None), mode=GEN, gen_type=config.gen_type)  # todo: config.gen_type
+        sents = torch.tensor(batch['outputs'])
+        outputs, labels = model(sents, None, mode=GEN, gen_type=config.gen_type)  # todo: config.gen_type
 
         if DecoderRNN.KEY_LATENT in outputs:
             key_latent = outputs[DecoderRNN.KEY_LATENT]
@@ -298,7 +299,7 @@ def cond_exact_sampling(model, max_sampling_num, config, dest, sampling_batch_si
     logger.info("Generation Done")
 
 def calculate_likelihood(model, data_feed, max_sampling_num, config,
-                         every_time_sampling_num=100, sample_type="LL"):
+                         every_time_sampling_num=100, sample_type="LL", max_done=1000000000):
 
     model.eval()
     original_batch_size = config.batch_size
@@ -316,7 +317,7 @@ def calculate_likelihood(model, data_feed, max_sampling_num, config,
         done += 1
         if done % 200 == 0:
             print(done, "done.", (tot_nll / tot_w))
-        if batch is None:
+        if batch is None or done > max_done:
             break
 
         ll_sum = []
