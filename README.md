@@ -1,7 +1,7 @@
 # Latent Diffusion Energy-Based Model for Interpretable Text Modeling
 <img src="teaser.PNG" alt="teaser" width="50%" />
 
-[[Paper]()] [[Code](https://github.com/yuPeiyu98/LDEBM)]
+[[Paper](https://arxiv.org/abs/2206.05895)] [[Code](https://github.com/yuPeiyu98/LDEBM)]
 
 The official code repository for ICML 2022 paper "Latent Diffusion Energy-Based Model for Interpretable Text Modeling".
 
