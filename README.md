@@ -21,7 +21,7 @@ Please refer to this [repo](https://github.com/facebookresearch/faiss) if you're
 
 ## Datasets and Pretrained Models
 
-Pretrained models are available at: https://drive.google.com/drive/folders/1XWu7olAoYbrKmh8Hnu_zROKhhd3TtmhS?usp=sharing
+Pretrained models are available at: https://drive.google.com/drive/folders/1XWu7olAoYbrKmh8Hnu_zROKhhd3TtmhS?usp=sharing [No longer valid]. **Please note that the link is outdated due to limited google drive access. Please directly contact the first author for further experiment details.**
 
 ## Training
 
@@ -50,3 +50,4 @@ python <TASK_SCRIPT>.py --gpu <GPU_ID> --forward_only True
   year = {2022}
 }
 ```
+
